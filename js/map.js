@@ -58,10 +58,10 @@ export default class Map{
 
     //Récupération des données JSON et création de marqueurs
     initMap(){
-        //let ajax1 = new Ajax();
+        let ajax1 = new Ajax();
         let lo = this;
 
-        ajaxGet('https://api.jcdecaux.com/vls/v1/stations?contract=' + this.city + '&apiKey=19db939c14d552b350876fb0d0948c01b1183b0a',
+        ajax1.ajaxGet('https://api.jcdecaux.com/vls/v1/stations?contract=' + this.city + '&apiKey=19db939c14d552b350876fb0d0948c01b1183b0a',
         function (reponse) {
             let stations = JSON.parse(reponse);
             stations.forEach(function (station) {
