@@ -1,0 +1,383 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- liens du CDN boostrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Lien vers l'API leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin="" />
+
+    <!--Liens vers le regroupement des marqueurs sur la carte-->
+    <link ref="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+    <!--<link ref="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">-->
+    <link rel="stylesheet" href="./css/main.css">
+
+    <!-- Ficher d'extraction des fontawesome -->
+    <script src="https://kit.fontawesome.com/ddfea75fe6.js" crossorigin="anonymous"></script>
+
+    <title>P3_01_codesource</title>
+
+    <style>
+        .mycluster {
+            background: #28a745;
+            border-radius: 50%;
+            text-align: center;
+            color: white;
+            font-size: 17px;
+            border: 1px solid #28a745;
+            font-family: monospace;
+        }
+
+            .mycluster:before {
+                content: ' ';
+                position: absolute;
+                border-radius: 50%;
+                z-index: -1;
+                top: 1px;
+                left: 1px;
+                right: 1px;
+                bottom: 1px;
+                border: 1px solid white;
+            }
+
+            .mycluster div {
+                margin: 4px 0;
+            }
+
+            .btnResa {
+                display: block;
+                margin: 10px auto 0 auto;
+                width: 56%;
+                text-align: center;
+                border: 1px solid #0078A8;
+                text-decoration: none;
+                padding: 5px 7px;
+                border-radius: 6px;
+                font-size: 11px;
+                box-shadow: 0px 0px 5px 0px #870a30;
+            }
+
+                .btnResa:hover {
+                    color: white !important;
+                    background: #0078A8;
+                    border: 1px solid #6c757d;
+                }
+
+
+    </style>
+
+</head>
+
+<body id="top">
+    <header class="fixedHeader col fixed-top justify-content-between align-items-center">
+        <!--MAIN NAVIGATION-->
+        <nav class="navbar fixed-top navbar-light bg-light">
+            <!--<button id="nav_button" class="navbar-toggler" onclick="show_hide()" type="button" data-toggle=""
+                    data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>-->
+            <!--SITE NAVIGATION-->
+            <!--<div id="menu" class="menu-open justify-content-between align-items-center">
+            <img src="img/velo_icon.png" alt="velo icon" width="50" />
+            <a class="dropdown-item" href="#top">Accueil</a>
+            <a class="dropdown-item" href="#heading_diapo">Comment ça marche</a>
+            <a class="dropdown-item" href="#card_container">Reserver votre vélo</a>-->
+            <!-- <a class="dropdown-item" href="#contact">Contact</a> -->
+            <!--</div>-->
+            <!--SITE NAVIGATION-->
+            <div id="menu" class="menu-open justify-content-between align-items-center">
+                <a href="#top">Accueil</a>
+                <a href="#diapoContainer">Comment ça marche ?</a>
+                <a href="#card_container">Comment reserver votre vélo ?</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <img class="logo navbar-brand col" src="img/logo/cyclo'b.png" alt="logo">
+            <img class="logo_ville col fixed-top" src="img/logo/img_ville.png" alt="logo de la métropole de Dijon"
+                 width="10">
+
+        </nav>
+
+    </header>
+
+    <main id="main_container">
+        <div id="galerie">
+            <div id="slider">
+                <a id="sliderImg"><img class="imgSlider1" src="./img/galerie/image1.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider" src="./img/galerie/image2.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider3" src="./img/galerie/image3.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider" src="./img/galerie/image4.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider5" src="./img/galerie/image5.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider7" src="./img/galerie/image7.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider8" src="./img/galerie/image8.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider9" src="./img/galerie/image9.jpg"></a>
+                <a id="sliderImg"><img class="imgSlider10" src="./img/galerie/image10.jpg"></a>
+            </div>
+        </div>
+
+        <h3 class="slider_text">
+            Louez un vélo élèctrique en libre-service quand vous voulez et deplacez-vous
+            librement
+            à Dijon
+        </h3>
+
+        <div class="arrowDown">
+            <a href="#diapoContainer" alt="fleche pour acceder aux explications du fonctionneent de l'appli">
+                <svg class="arrows">
+                    <path class="a1" d="M0 0 L30 32 L60 0"></path>
+                    <path class="a2" d="M0 20 L30 52 L60 20"></path>
+                    <path class="a3" d="M0 40 L30 72 L60 40"></path>
+                </svg>
+            </a>
+        </div>
+
+    </main>
+
+    <section id="diapoContainer">
+        <div id="diapo_container_heading" class="col">
+            <h1 id="heading_diapo" class="col">fonctionnement de l'application</h1>
+            <hr class="heading_border_line col">
+        </div>
+
+        <div id="diaporama" class="container-slider row" data-slider-element="slider-container">
+            <div id="item" class="active col-10">
+                <div class="left-side col-5">
+                    <img class="col" src="img/mockup.jpg" alt="computer">
+                </div>
+
+                <div class="right-side col-6">
+                    <div class="slider_content">
+                        <h2 class="content">1 - Sélectionnez votre zone</h2>
+                        <ul>
+                            <li>
+                                Zoomez et cliquez sur le marqueur indiquant la station où vous souhaitez recupérer votre
+                                vélo
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item" class="col-10" style="display: none;">
+                <div class="left-side col-5">
+                    <img src="img/mockup.jpg" alt="computer">
+                </div>
+
+                <div class="right-side col-6">
+                    <div class="slider_content">
+                        <h2 class="content">2 - Choisissez une station</h2>
+                        <ul>
+                            <li>
+                                Un panneau s'affiche lors du clic sur un marqueur et vous avez la possibilité de
+                                visiter la station ou de réserver un vélo
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item" class="col-10" style="display: none;">
+                <div class="left-side col-5">
+                    <img src="img/mockup.jpg" alt="computer">
+                </div>
+
+                <div class="right-side col-6">
+                    <div class="slider_content">
+                        <h2 class="content">3 - Visiter la station</h2>
+                        <ul>
+                            <li>Cliquez sur 'visiter' pour réaliser la visite virtuelle de la station choisie</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item" class="col-10" style="display: none;">
+                <div class="left-side col-5">
+                    <img src="img/mockup.jpg" alt="computer">
+                </div>
+
+                <div class="right-side col-6">
+                    <div class="slider_content">
+                        <h2 class="content">4 - Réservez votre vélo</h2>
+                        <ul>
+                            <li>
+                                Cliquez sur 'réserver', puis indiquez votre nom et prénom et signez dans un champ libre
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item" class="col-10" style="display: none;">
+                <div class="left-side col-5">
+                    <img src="img/mockup.jpg" alt="computer">
+                </div>
+
+                <div class="right-side col-6">
+                    <div class="slider_content">
+                        <h2 class="content">5 - Réservation</h2>
+                        <ul>
+                            <li>Votre réservation expire automatiquement au bout de 20 minutes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- boutons précédent, suivant et pause-->
+
+        <button class="diapo_prev" type="button" value="Precedent">
+            <i class="fa fa-chevron-left fa-2x" aria-hidden="true"></i>
+        </button>
+
+        <button class="diapo_next" type="button" value="Suivant">
+            <i class="fa fa-chevron-right fa-2x" aria-hidden="true"></i>
+        </button>
+
+        <button class="diapo_pause" type="button" value="Stop">
+            <i class="far fa-pause-circle fa-3x"></i>
+            <!--<i class="far fa-stop-circle-o fa-3x" aria-hidden="true"></i>-->
+        </button>
+
+        <button class="diapo_play" type="button" value="Start">
+            <i class="fa fa-play-circle-o fa-3x" aria-hidden="true"></i>
+        </button>
+
+        <a class="cta" href="#card_container">
+            <span>Reservez votre velo !</span>
+            <span>
+                <svg id="svg" width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                        <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+                        <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+                    </g>
+                </svg>
+            </span>
+        </a>
+
+    </section>
+
+    <section id="card_container">
+        <div id="card_container_heading">
+            <h2 class="heading_card">Cliquez sur la station de votre choix</h2>
+            <hr class="heading_border_line col">
+        </div>
+
+        <div class="carte_body">
+
+            <div id="maCarte" class=" card card_item col-6"></div>
+
+            <div id="form_container" class="card col-5">
+                <div id="before_form" class="presentation">
+                    <p id="before_click">
+                        Cliquez sur la station de votre choix pour afficher les informations et
+                        réserver votre vélo !
+                    </p>
+                    <ul>
+                        <li id="station_verte">Station verte : plus de 10 vélos disponibles</li>
+                        <li id="station_orange">Station orange : moins de 10 vélos disponibles</li>
+                        <li id="station_rouge">Station rouge : aucun vélo disponible</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="station_heading" class="card col-6">
+                <div id="station_infos">
+                    <p>Adresse : </p>
+                    <p>Nombre de places : </p>
+                    <p>Nombre de vélos disponibles : </p>
+                </div>
+
+                <form id="form_velo">
+                    <fieldset>
+                        <legend>Réservez un vélo de cette station :</legend>
+                        <label for="name">Votre nom : </label><input type="text" name="name" id="name"
+                                                                     placeholder="Votre nom" required /><br />
+                        <label for="firstname"> Votre prénom : </label><input type="text" name="firstname"
+                                                                              id="firstname" placeholder="Votre prénom" required><br />
+                        <button class='submit' name="reservation">Réservez !</button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div id="canvas" class="canvas_container card col-4" style="display: none;">
+                <div id="canvas_message">
+                    <p>Signez dans la case pour confirmer :</p>
+                </div>
+                <div id="canvas_div">
+                    <canvas id="canvas_resa">
+                        Apposez votre signature (si vous voyez ce message,
+                        votre navigateur n'est pas à jour)
+                    </canvas>
+                </div>
+                <div id="canvas_confirm">
+                    <button type="submit" id="submit_canvas">Validez !</button>
+                    <button type="reset" id="clear_canvas">Recommencez</button>
+                </div>
+            </div>
+
+            <!--BLOC MESSAGES DE CONFIRAMATION DE LA RESERVATION AVANT EXPIRATION -->
+            <p id="form_confirm" class="card col" style="display: none;">
+                <span>Vélo réservé à la station :</span><span id="confirm_station">STATION</span><span> Par :</span><span id="confirm_name">NAME</span><br />
+                <span style="text-decoration: underline;">Temps restant :</span> <span id="timer"></span> secondes avant l'expiration de la session
+            </p>
+
+        </div>
+    </section>
+
+    <footer id="row">
+        <div class="info-footer col">
+            <p>
+                Ce site a été réalisé par Alpha Oumar DIALLO dans le cadre de la formation de
+                <a href="https://openclassrooms.com/fr/paths/48-developpeur-web-junior">Développeur web junior</a>
+                auprès de la plateforme de formation en ligne OpenClassrooms.
+            </p>
+            <p>
+                <a href="Concevez une carte interactive de location de vélos - OpenClassrooms.pdf">
+                    Cahier de charges de
+                    la réalisation
+                </a>
+            </p>
+        </div>
+    </footer>
+
+
+
+    <!-- Fichiers d'utilisation de la librairie Jquey -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="./js/app.js" type="module"></script>
+    <!-- <script src="sliderImg.js"></script> -->
+
+
+
+    <!--Fichiers JS de l'API leaflet-->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+
+    <!-- Fichier JS de regroupement de marqueurs -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <!-- fichiers JS -->
+
+
+    <!-- <script src="Api_jcdecaux/ajax.js"></script>
+    <script src="Api_jcdecaux/map.js"></script>
+    <script src="reservation.js"></script> -->
+
+
+
+</body>
+
+</html>
