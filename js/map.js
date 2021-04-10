@@ -53,47 +53,48 @@ export default class Map{
             shadowSize: [41, 41]
         });
 
-        this.initMap();
+        this.getStations();
     }
 
     //Récupération des données JSON et création de marqueurs
-    initMap(){
-        let ajax1 = new Ajax();
-        let lo = this;
+    async getStations(){
+        const response = await fetch('https://api.jcdecaux.com/vls/v1/stations?contract=' + this.city + '&apiKey=19db939c14d552b350876fb0d0948c01b1183b0a');
+        const stations = await response.json();
 
-        ajax1.ajaxGet('https://api.jcdecaux.com/vls/v1/stations?contract=' + this.city + '&apiKey=19db939c14d552b350876fb0d0948c01b1183b0a',
-        function (reponse) {
-            let stations = JSON.parse(reponse);
-            stations.forEach(function (station) {
-                
-                // Création de marqueurs pour chaque station
-                if (station.status === 'CLOSED' || station.available_bikes === 0) {
-                    lo.marker = L.marker((station.position), { 
-                        icon: lo.redIcon 
-                    });
-                } else if (station.status === 'OPEN' || station.available_bikes < 6) {
-                    lo.marker = L.marker((station.position), { 
-                        icon: lo.orangeIcon 
-                    });
-                } else {
-                    lo.marker = L.marker((station.position), {
-                        icon: lo.orangeIcon
-                    });
-                }
-                
-                lo.marker.addTo(lo.map).bindPopup(station.name);
+         stations.forEach((station) => {
+            //console.log(station);
+             // Création de marqueurs pour chaque station
+            if (station.status === 'CLOSED' || station.available_bikes === 0) {
+                this.marker = L.marker((station.position), {
+                    icon: this.redIcon
+                });
+            } else if (station.status === 'OPEN' || station.available_bikes < 6) {
+                this.marker = L.marker((station.position), {
+                    icon: this.orangeIcon
+                });
+            } else {
+                this.marker = L.marker((station.position), {
+                    icon: this.greenIcon
+                });
+            }
 
-                lo.popupInformation(station.address, station.available_bikes, station.bikes_stands);
-            });
-        });
+             let stationMarker = L.marker([station.position.lat, station.position.lng]).addTo(this.map);
+
+
+             //.bindPopup(station.name);
+
+             //this.popupInformation(station.address, station.available_bikes, station.bikes_stands);
+         });
+ 
     }
+    
 
-    popupInformation(address, bike, place){
-        this.marker.addEventListener('click', () => {
-            this.yourAddress.textContent = address;
-            sessionStorage.setItem('address', this.yourAddress.textContent);
-            this.placeNumber.innerHTML = "Nombre de places total : " + " " + place;
-            this.bikeNumber.textContent = "Nombre de vélo(s) disponible : " + " " + bike;
-        });
-    }
+    // popupInformation(address, bike, place){
+    //     this.marker.addEventListener('click', () => {
+    //         this.yourAddress.textContent = address;
+    //         sessionStorage.setItem('address', this.yourAddress.textContent);
+    //         this.placeNumber.innerHTML = "Nombre de places total : " + " " + place;
+    //         this.bikeNumber.textContent = "Nombre de vélo(s) disponible : " + " " + bike;
+    //     });
+    // }
 }
