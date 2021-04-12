@@ -7,10 +7,6 @@ export default class Map{
         this.city = city;
         this.marker = null;
 
-        this.yourAddress = document.getElementById('votreAdresse');
-        this.bikeNumber = document.getElementById('nombreVelo');
-        this.placeNumber = document.getElementById('nombrePlace');
-
         // initialisation de la map
         this.map = L.map(this.id).setView([this.longitude, this.latitude], this.zoom);
 
@@ -25,34 +21,6 @@ export default class Map{
             accessToken: 'pk.eyJ1IjoiYWxiZWEiLCJhIjoiY2tmbHVqcmxsMTRnNDMwcWhoOHFzdnRpaiJ9.iJ7K7Eh3e2RgEjJApi7LNA'
         }).addTo(this.map);
 
-        // définition des marqueurs
-        this.greenIcon = L.icon({
-            inconUrl: 'img/marqueurs/vert.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            shadowSize: [41, 41]
-        });
-
-        this.redIcon = L.icon({
-            inconUrl: 'img/marqueurs/rouge.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            shadowSize: [41, 41]
-        });
-
-        this.orangeIcon = L.icon({
-            inconUrl: 'img/marqueurs/orange.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-            shadowSize: [41, 41]
-        });
-
         this.getStations();
     }
 
@@ -62,39 +30,58 @@ export default class Map{
         const stations = await response.json();
 
          stations.forEach((station) => {
-            //console.log(station);
+            // définition des marqueurs
+            const LeafIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    shadowSize: [41, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [0, -39]
+                }
+            })
+
+            const popup = L.popup().setContent(
+                "<b>" + station.address + "</b>" + '<br>'+
+                "<b style='text-decoration: underline; font-weight : normal'>" + 'Station :' + "</b>" +
+                "<b style='color: red'>" + ' ' + station.status + "</b>" + '<br>'+
+                "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de place total :' + "</b>" +
+                "<b style='color: green'>" + ' ' + station.available_bike_stands + "</b>" +
+                "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
+                "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de vélo disponible :' + "</b>" +
+                "<b style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
+                "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
+                "<a href='#station_heading' class='btnResa'>" + 'Reservez ici votre vélo' + "</a >"
+            );
+
              // Création de marqueurs pour chaque station
             if (station.status === 'CLOSED' || station.available_bikes === 0) {
-                this.marker = L.marker((station.position), {
-                    icon: this.redIcon
+                const redIcon = new LeafIcon({
+                    iconUrl: 'img/colorIcons/redIcon.png'
                 });
-            } else if (station.status === 'OPEN' || station.available_bikes < 6) {
-                this.marker = L.marker((station.position), {
-                    icon: this.orangeIcon
+
+               L.marker([station.position.lat, station.position.lng], {
+                   icon: redIcon
+                }).addTo(this.map).bindPopup(popup);
+
+            } else if (station.status === 'OPEN' || station.available_bikes < 10) {
+                const orangeIcon = new LeafIcon({
+                    iconUrl: 'img/colorIcons/orangeIcon.png'
                 });
+
+                L.marker([station.position.lat, station.position.lng], {
+                    icon: orangeIcon
+                }).addTo(this.map).bindPopup(popup);
+
             } else {
-                this.marker = L.marker((station.position), {
-                    icon: this.greenIcon
+                const greenIcon = new LeafIcon({
+                    iconUrl: 'img/colorIcons/greenIcon.png'
                 });
+
+                L.marker([station.position.lat, station.position.lng], {
+                    icon: greenIcon
+                }).addTo(this.map).bindPopup(popup);
             }
-
-             let stationMarker = L.marker([station.position.lat, station.position.lng]).addTo(this.map);
-
-
-             //.bindPopup(station.name);
-
-             //this.popupInformation(station.address, station.available_bikes, station.bikes_stands);
          });
- 
     }
-    
-
-    // popupInformation(address, bike, place){
-    //     this.marker.addEventListener('click', () => {
-    //         this.yourAddress.textContent = address;
-    //         sessionStorage.setItem('address', this.yourAddress.textContent);
-    //         this.placeNumber.innerHTML = "Nombre de places total : " + " " + place;
-    //         this.bikeNumber.textContent = "Nombre de vélo(s) disponible : " + " " + bike;
-    //     });
-    // }
 }
