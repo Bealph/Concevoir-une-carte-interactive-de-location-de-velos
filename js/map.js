@@ -82,6 +82,17 @@ export default class Map{
                     icon: greenIcon
                 }).addTo(this.map).bindPopup(popup);
             }
+            
+            // Création de régroupement de marqueurs
+            const markers = L.markerClusterGroup(); 
+            
+            // https://nouvelle-techno.fr/actualites/pas-a-pas-inserer-une-carte-openstreetmap-sur-votre-site
+            // video | temps visio : 25'38
          });
     }
 }
+
+/*
+
+
+*/
