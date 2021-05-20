@@ -5,7 +5,16 @@ export default class Map{
         this.zoom = zoom;
         this.id = id;
         this.city = city;
-        this.marker = null;
+        this.markers = L.markerClusterGroup({
+            iconCreateFunction : function (cluster) {
+                return L.divIcon({
+                    html:'<b class="mycluster">' 
+                    + cluster.getChildCount() + '</b>',
+                    iconSize: L.point(30, 30)
+                });
+              
+            }
+        });
 
         // initialisation de la map
         this.map = L.map(this.id).setView([this.longitude, this.latitude], this.zoom);
@@ -30,7 +39,7 @@ export default class Map{
         const stations = await response.json();
 
          stations.forEach((station) => {
-            // définition des marqueurs
+            // Paramètrage des marqueurs
             const LeafIcon = L.Icon.extend({
                 options: {
                     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -54,37 +63,43 @@ export default class Map{
                 "<a href='#station_heading' class='btnResa'>" + 'Reservez ici votre vélo' + "</a >"
             );
 
-             // Création de marqueurs pour chaque station
+            // Création et regroupemment de marqueurs pour chaque station
+            
             if (station.status === 'CLOSED' || station.available_bikes === 0) {
                 const redIcon = new LeafIcon({
                     iconUrl: 'img/colorIcons/redIcon.png'
                 });
 
-               L.marker([station.position.lat, station.position.lng], {
+               const marqueur = L.marker([station.position.lat, station.position.lng], {
                    icon: redIcon
-                }).addTo(this.map).bindPopup(popup);
+                });
+                marqueur.bindPopup(popup);
+                this.markers.addLayer(marqueur);
 
             } else if (station.status === 'OPEN' || station.available_bikes < 10) {
                 const orangeIcon = new LeafIcon({
                     iconUrl: 'img/colorIcons/orangeIcon.png'
                 });
 
-                L.marker([station.position.lat, station.position.lng], {
+                const marqueur = L.marker([station.position.lat, station.position.lng], {
                     icon: orangeIcon
-                }).addTo(this.map).bindPopup(popup);
+                });
+                marqueur.bindPopup(popup);
+                this.markers.addLayer(marqueur);
 
             } else {
                 const greenIcon = new LeafIcon({
                     iconUrl: 'img/colorIcons/greenIcon.png'
                 });
 
-                L.marker([station.position.lat, station.position.lng], {
+                const marqueur = L.marker([station.position.lat, station.position.lng], {
                     icon: greenIcon
-                }).addTo(this.map).bindPopup(popup);
+                });
+                marqueur.bindPopup(popup);
+                this.markers.addLayer(marqueur);
             }
-            
-            // Création de régroupement de marqueurs
-            const markers = L.markerClusterGroup(); 
+
+            this.map.addLayer(this.markers);
             
             // https://nouvelle-techno.fr/actualites/pas-a-pas-inserer-une-carte-openstreetmap-sur-votre-site
             // video | temps visio : 25'38
