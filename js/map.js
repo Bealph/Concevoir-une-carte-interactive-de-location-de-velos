@@ -10,7 +10,7 @@ export default class Map{
                 return L.divIcon({
                     html:'<b class="mycluster">' 
                     + cluster.getChildCount() + '</b>',
-                    iconSize: L.point(30, 30)
+                    iconSize: L.point(40, 40)
                 });
               
             }
@@ -39,6 +39,7 @@ export default class Map{
         const stations = await response.json();
 
          stations.forEach((station) => {
+
             // Paramètrage des marqueurs
             const LeafIcon = L.Icon.extend({
                 options: {
@@ -100,14 +101,8 @@ export default class Map{
             }
 
             this.map.addLayer(this.markers);
-            
-            // https://nouvelle-techno.fr/actualites/pas-a-pas-inserer-une-carte-openstreetmap-sur-votre-site
-            // video | temps visio : 25'38
+
          });
     }
 }
 
-/*
-
-
-*/
