@@ -1,18 +1,18 @@
-export default class Map{
-    constructor (longitude, latitude, zoom, id, city) {
+export default class Map {
+    constructor(longitude, latitude, zoom, id, city) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.zoom = zoom;
         this.id = id;
         this.city = city;
         this.markers = L.markerClusterGroup({
-            iconCreateFunction : function (cluster) {
+            iconCreateFunction: function (cluster) {
                 return L.divIcon({
-                    html:'<b class="mycluster">' 
-                    + cluster.getChildCount() + '</b>',
+                    html: '<b class="mycluster">' +
+                        cluster.getChildCount() + '</b>',
                     iconSize: L.point(40, 40)
                 });
-              
+
             }
         });
 
@@ -34,11 +34,11 @@ export default class Map{
     }
 
     //Récupération des données JSON et création de marqueurs
-    async getStations(){
+    async getStations() {
         const response = await fetch('https://api.jcdecaux.com/vls/v1/stations?contract=' + this.city + '&apiKey=19db939c14d552b350876fb0d0948c01b1183b0a');
         const stations = await response.json();
 
-         stations.forEach((station) => {
+        stations.forEach((station) => {
 
             // Paramètrage des marqueurs
             const LeafIcon = L.Icon.extend({
@@ -52,27 +52,27 @@ export default class Map{
             })
 
             const popup = L.popup().setContent(
-                "<b>" + station.address + "</b>" + '<br>'+
+                "<b>" + station.address + "</b>" + '<br>' +
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Station :' + "</b>" +
-                "<b style='color: red'>" + ' ' + station.status + "</b>" + '<br>'+
+                "<b style='color: red'>" + ' ' + station.status + "</b>" + '<br>' +
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de place total :' + "</b>" +
                 "<b style='color: green'>" + ' ' + station.available_bike_stands + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de vélo disponible :' + "</b>" +
                 "<b style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
-                "<a href='#station_heading' class='btnResa'>" + 'Reservez ici votre vélo' + "</a >"
+                "<button class='toggleBtn' style='border: none;'>" + 'Reservez ici votre vélo' + "</button>"
             );
 
             // Création et regroupemment de marqueurs pour chaque station
-            
+
             if (station.status === 'CLOSED' || station.available_bikes === 0) {
                 const redIcon = new LeafIcon({
                     iconUrl: 'img/colorIcons/redIcon.png'
                 });
 
-               const marqueur = L.marker([station.position.lat, station.position.lng], {
-                   icon: redIcon
+                const marqueur = L.marker([station.position.lat, station.position.lng], {
+                    icon: redIcon
                 });
                 marqueur.bindPopup(popup);
                 this.markers.addLayer(marqueur);
@@ -87,6 +87,14 @@ export default class Map{
                 });
                 marqueur.bindPopup(popup);
                 this.markers.addLayer(marqueur);
+                this.markers.on('click', (e) => {
+                    let btn = document.querySelector('.toggleBtn');
+                    btn.addEventListener('click', () => {
+                        console.log('oui!');
+                        //let 
+                    })
+                    
+                });
 
             } else {
                 const greenIcon = new LeafIcon({
@@ -101,8 +109,6 @@ export default class Map{
             }
 
             this.map.addLayer(this.markers);
-
-         });
+        });
     }
 }
-
