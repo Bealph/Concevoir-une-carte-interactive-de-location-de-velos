@@ -18,62 +18,56 @@
 
     <!--Liens vers le regroupement des marqueurs sur la carte-->
     <link ref="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
-    <!--<link ref="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">-->
+
+    <link ref="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
     <link rel="stylesheet" href="./css/main.css">
 
     <!-- Ficher d'extraction des fontawesome -->
     <script src="https://kit.fontawesome.com/ddfea75fe6.js" crossorigin="anonymous"></script>
 
     <title>P3_01_codesource</title>
+<style>
 
-    <style>
-        .mycluster {
-            background: #28a745;
-            border-radius: 50%;
-            text-align: center;
-            color: white;
-            font-size: 17px;
-            border: 1px solid #28a745;
-            font-family: monospace;
-        }
+    .leaflet-div-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e694ee;
+        color: ivory;
+        border: none;
+        border-radius: 50%;
 
-            .mycluster:before {
-                content: ' ';
-                position: absolute;
-                border-radius: 50%;
-                z-index: -1;
-                top: 1px;
-                left: 1px;
-                right: 1px;
-                bottom: 1px;
-                border: 1px solid white;
-            }
+    }
 
-            .mycluster div {
-                margin: 4px 0;
-            }
+    .mycluster {
+        position: absolute;
+        text-align: center;
+        font-size: 17px;
+        font-family: monospace;      
+        width: 31px;
+        height: 27px;
+    } 
 
-            .btnResa {
-                display: block;
-                margin: 10px auto 0 auto;
-                width: 56%;
-                text-align: center;
-                border: 1px solid #0078A8;
-                text-decoration: none;
-                padding: 5px 7px;
-                border-radius: 6px;
-                font-size: 11px;
-                box-shadow: 0px 0px 5px 0px #870a30;
-            }
+    .toggleBtn {
+        display: block;
+        margin: 5px auto 0 auto;
+        width: auto;
+        text-align: center;
+        border: 1px solid #0078A8;
+        text-decoration: none;
+        padding: 5px 7px;
+        border-radius: 6px;
+        font-size: 12px;
+        box-shadow: 0px 0px 5px 0px #870a30;
+    }
 
-                .btnResa:hover {
-                    color: white !important;
-                    background: #0078A8;
-                    border: 1px solid #6c757d;
-                }
+    .toggleBtn:hover {
+        color: white !important;
+        background: #0078A8;
+        border: 1px solid #6c757d;
+    }
 
-
-    </style>
+</style>
 
 </head>
 
@@ -170,7 +164,7 @@
 
             <div id="item" class="col-10" style="display: none;">
                 <div class="left-side col-5">
-                    <img src="img/mockup.jpg" alt="computer">
+                    <img class="col" src="img/mockup.jpg" alt="computer">
                 </div>
 
                 <div class="right-side col-6">
@@ -188,7 +182,7 @@
 
             <div id="item" class="col-10" style="display: none;">
                 <div class="left-side col-5">
-                    <img src="img/mockup.jpg" alt="computer">
+                    <img class="col" src="img/mockup.jpg" alt="computer">
                 </div>
 
                 <div class="right-side col-6">
@@ -203,7 +197,7 @@
 
             <div id="item" class="col-10" style="display: none;">
                 <div class="left-side col-5">
-                    <img src="img/mockup.jpg" alt="computer">
+                    <img class="col" src="img/mockup.jpg" alt="computer">
                 </div>
 
                 <div class="right-side col-6">
@@ -220,7 +214,7 @@
 
             <div id="item" class="col-10" style="display: none;">
                 <div class="left-side col-5">
-                    <img src="img/mockup.jpg" alt="computer">
+                    <img class="col" src="img/mockup.jpg" alt="computer">
                 </div>
 
                 <div class="right-side col-6">
@@ -292,7 +286,7 @@
                 </div>
             </div>
 
-            <div id="station_heading" class="card col-6">
+            <div id="station_heading" class="card col-6" style="display: none;">
                 <div id="station_infos">
                     <p>Adresse : </p>
                     <p>Nombre de places : </p>
@@ -355,11 +349,8 @@
 
 
     <!-- Fichiers d'utilisation de la librairie Jquey -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/app.js" type="module"></script>
-    <!-- <script src="sliderImg.js"></script> -->
-
-
 
     <!--Fichiers JS de l'API leaflet-->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
@@ -368,15 +359,6 @@
 
     <!-- Fichier JS de regroupement de marqueurs -->
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-
-    <!-- fichiers JS -->
-
-
-    <!-- <script src="Api_jcdecaux/ajax.js"></script>
-    <script src="Api_jcdecaux/map.js"></script>
-    <script src="reservation.js"></script> -->
-
-
 
 </body>
 
