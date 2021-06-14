@@ -61,10 +61,8 @@ export default class Map {
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de vélo disponible :' + "</b>" +
                 "<b style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
-                "<button class='toggleBtn' style='border: none;'>" + 'Cliquer ici pour reserver' + "</button>"
+                "<button class='toggleBtn' style='border: none;'>" + 'Cliquer pour reserver' + "</button>"
             );
-
-            // CHANGER LA COULEUR DU BTN TOGGLE ET AJOUTER DU STYLE ET UN AUTRE BTN "POUR ANNULER, CLIQUER ICI"
 
             // Création et regroupemment de marqueurs pour chaque station
 
@@ -92,20 +90,26 @@ export default class Map {
 
                 this.markers.on('click', () => {
                     let btn = document.querySelector('.toggleBtn');
-                    btn.addEventListener('click', () => {
+                    btn.addEventListener('click', (e) => {
                         let blocDescription = document.querySelector('#form_container');
                         let blocInfoStation = document.querySelector('#station_heading');
 
-                        if (blocDescription.style.display == "block") {
+                        if (blocDescription.style.display === "block") {
+                            let newContentBtn = "Cliquer pour revenir";
+                            btn.innerHTML = newContentBtn;
+                            btn.style.background = 'red';
                             blocDescription.style.display = "none";
                             blocInfoStation.style.display = "block";
                         } else {
+                            let backContentBtn = "Cliquer pour reserver";
+                            btn.innerHTML = backContentBtn;
+                            btn.style.background = '#33b12d';
                             blocDescription.style.display = "block";
                             blocInfoStation.style.display = "none";
                         }
+                        e.preventDefault();
                     })
-
-                    preventDefault();
+                    e.preventDefault();   
                 });
 
             } else {
