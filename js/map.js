@@ -87,24 +87,24 @@ export default class Map {
                 });
                 marqueur.bindPopup(popup);
                 this.markers.addLayer(marqueur);
-                
-                // this.markers.on('click', (e) => {
-                //     //let blocDescription = document.querySelector('#form_container');
-                //     console.log('hello!');
-                //     //let blocInfoStation = document.querySelector('#station_heading');
-                //     let btn = document.querySelector('.toggleBtn');
-                //     btn.addEventListener('click', () => {
-                //         console.log('oui!');
-                //         blocDescription.style = 'none';
-                //         // if (window.getComputedStyle(blocDescription, null).display === 'block') {
-                //         //     blocDescription.style = 'none';
-                //         // } else {
-                            
-                //         // }
-                        
-                //     })
-                    
-                // });
+
+                this.markers.on('click', () => {
+                    let btn = document.querySelector('.toggleBtn');
+                    btn.addEventListener('click', () => {
+                        let blocDescription = document.querySelector('#form_container');
+                        let blocInfoStation = document.querySelector('#station_heading');
+
+                        if (blocDescription.style.display == "block") {
+                            blocDescription.style.display = "none";
+                            blocInfoStation.style.display = "block";
+                        } else {
+                            blocDescription.style.display = "block";
+                            blocInfoStation.style.display = "none";
+                        }
+                    })
+
+                    preventDefault();
+                });
 
             } else {
                 const greenIcon = new LeafIcon({
@@ -119,6 +119,7 @@ export default class Map {
             }
 
             this.map.addLayer(this.markers);
+
         });
     }
 }
