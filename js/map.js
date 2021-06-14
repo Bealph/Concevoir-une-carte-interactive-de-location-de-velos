@@ -61,8 +61,10 @@ export default class Map {
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de vélo disponible :' + "</b>" +
                 "<b style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
-                "<button class='toggleBtn' style='border: none;'>" + 'Reservez ici votre vélo' + "</button>"
+                "<button class='toggleBtn' style='border: none;'>" + 'Cliquer ici pour reserver' + "</button>"
             );
+
+            // CHANGER LA COULEUR DU BTN TOGGLE ET AJOUTER DU STYLE ET UN AUTRE BTN "POUR ANNULER, CLIQUER ICI"
 
             // Création et regroupemment de marqueurs pour chaque station
 
