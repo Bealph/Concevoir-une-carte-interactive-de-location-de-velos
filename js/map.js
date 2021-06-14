@@ -87,14 +87,24 @@ export default class Map {
                 });
                 marqueur.bindPopup(popup);
                 this.markers.addLayer(marqueur);
-                this.markers.on('click', (e) => {
-                    let btn = document.querySelector('.toggleBtn');
-                    btn.addEventListener('click', () => {
-                        console.log('oui!');
-                        //let 
-                    })
+                
+                // this.markers.on('click', (e) => {
+                //     //let blocDescription = document.querySelector('#form_container');
+                //     console.log('hello!');
+                //     //let blocInfoStation = document.querySelector('#station_heading');
+                //     let btn = document.querySelector('.toggleBtn');
+                //     btn.addEventListener('click', () => {
+                //         console.log('oui!');
+                //         blocDescription.style = 'none';
+                //         // if (window.getComputedStyle(blocDescription, null).display === 'block') {
+                //         //     blocDescription.style = 'none';
+                //         // } else {
+                            
+                //         // }
+                        
+                //     })
                     
-                });
+                // });
 
             } else {
                 const greenIcon = new LeafIcon({
