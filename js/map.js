@@ -61,7 +61,7 @@ export default class Map {
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de vélo disponible :' + "</b>" +
                 "<b style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
-                "<button class='toggleBtn' style='border: none;'>" + 'Reservez ici votre vélo' + "</button>"
+                "<button class='toggleBtn' style='border: none;'>" + 'Cliquer pour reserver' + "</button>"
             );
 
             // Création et regroupemment de marqueurs pour chaque station
@@ -87,13 +87,29 @@ export default class Map {
                 });
                 marqueur.bindPopup(popup);
                 this.markers.addLayer(marqueur);
-                this.markers.on('click', (e) => {
+
+                this.markers.on('click', () => {
                     let btn = document.querySelector('.toggleBtn');
-                    btn.addEventListener('click', () => {
-                        console.log('oui!');
-                        //let 
+                    btn.addEventListener('click', (e) => {
+                        let blocDescription = document.querySelector('#form_container');
+                        let blocInfoStation = document.querySelector('#station_heading');
+
+                        if (blocDescription.style.display === "block") {
+                            let newContentBtn = "Cliquer pour revenir";
+                            btn.innerHTML = newContentBtn;
+                            btn.style.background = 'red';
+                            blocDescription.style.display = "none";
+                            blocInfoStation.style.display = "block";
+                        } else {
+                            let backContentBtn = "Cliquer pour reserver";
+                            btn.innerHTML = backContentBtn;
+                            btn.style.background = '#33b12d';
+                            blocDescription.style.display = "block";
+                            blocInfoStation.style.display = "none";
+                        }
+                        e.preventDefault();
                     })
-                    
+                    e.preventDefault();   
                 });
 
             } else {
@@ -109,6 +125,7 @@ export default class Map {
             }
 
             this.map.addLayer(this.markers);
+
         });
     }
 }
