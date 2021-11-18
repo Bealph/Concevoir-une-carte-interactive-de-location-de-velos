@@ -1,4 +1,4 @@
-export default class Map {
+class Map {
     constructor(longitude, latitude, zoom, id, city) {
         this.longitude = longitude;
         this.latitude = latitude;
@@ -89,6 +89,7 @@ export default class Map {
                 this.markers.addLayer(marqueur);
 
                 this.markers.on('click', () => {
+
                     let btn = document.querySelector('.toggleBtn');
                     btn.addEventListener('click', (e) => {
                         let blocDescription = document.querySelector('#form_container');
@@ -108,8 +109,9 @@ export default class Map {
                             blocInfoStation.style.display = "none";
                         }
                         e.preventDefault();
+
                     })
-                    e.preventDefault();   
+                    e.preventDefault();
                 });
 
             } else {
@@ -125,7 +127,8 @@ export default class Map {
             }
 
             this.map.addLayer(this.markers);
-
         });
     }
 }
+
+const map = new Map(48.692054, 6.184417, 12, 'maCarte', 'Nancy');
