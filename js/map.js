@@ -62,6 +62,8 @@ class Map {
                 "<b style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
                 "<button class='toggleBtn' style='border: none;'>" + 'Cliquer pour reserver' + "</button>"
+
+                //Revenir ici pour le bloc revienne à l'état initial 
             );
 
             // Création et regroupemment de marqueurs pour chaque station
@@ -91,9 +93,14 @@ class Map {
                 this.markers.on('click', () => {
 
                     let btn = document.querySelector('.toggleBtn');
-                    btn.addEventListener('click', (e) => {
+                    btn.addEventListener('click', (e,
+                        adresse = station.address,
+                        nbPlaceVelo = station.available_bike_stands,
+                        vDispo = station.available_bikes
+                    ) => {
                         let blocDescription = document.querySelector('#form_container');
                         let blocInfoStation = document.querySelector('#station_heading');
+                        let canvasBloc = document.querySelector("#canvas");
 
                         if (blocDescription.style.display === "block") {
                             let newContentBtn = "Cliquer pour revenir";
@@ -101,14 +108,29 @@ class Map {
                             btn.style.background = 'red';
                             blocDescription.style.display = "none";
                             blocInfoStation.style.display = "block";
+
+                            let stationAddress = document.querySelector("#stationAddress");
+                            let stationNbPlace = document.querySelector("#stationNbPlace");
+                            let stationVeloDispo = document.querySelector("#stationVeloDispo");
+
+                            stationAddress.innerHTML = adresse;
+
+                            canvasBloc.style.display = "none";
                         } else {
                             let backContentBtn = "Cliquer pour reserver";
                             btn.innerHTML = backContentBtn;
                             btn.style.background = '#33b12d';
                             blocDescription.style.display = "block";
                             blocInfoStation.style.display = "none";
+                            canvasBloc.style.display = "none";
                         }
                         e.preventDefault();
+
+
+
+
+
+
 
                     })
                     e.preventDefault();

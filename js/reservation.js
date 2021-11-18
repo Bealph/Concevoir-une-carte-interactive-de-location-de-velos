@@ -94,7 +94,7 @@ class Reservation {
 
             // Méthode qui récupére les coordonnées de l'Élément de pointage (souris, doigt...)
             getMousePos: function (event) {
-                rect = this.canvas.getBoundingClientRect(); // Renvoie la taille d'un élément et sa position relative par rapport à la zone d'affichage
+                let rect = this.canvas.getBoundingClientRect(); // Renvoie la taille d'un élément et sa position relative par rapport à la zone d'affichage
 
                 return {
                     x: event.clientX - rect.left,
