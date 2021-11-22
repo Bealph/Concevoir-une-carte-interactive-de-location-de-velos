@@ -3,11 +3,38 @@ class Reservation {
         this.formResa = document.querySelector('#form_velo');
         this.mySubmit = document.querySelector('.submit');
 
-
-
         this.myResaForm();
+       
+        
 
+        // balises et fonctions pour implémenter le canevas
+        this.canvas = document.querySelector("#canvas_resa");
+        this.ctx = this.canvas.getContext('2d');
+        this.ctx.strokeStyle = '#000000';
+        this.ctx.lineWidth = 3;
+        this.draw = false;
+        this.mousePosition = {
+            x: 0,
+            y: 0
+        };
+
+        this.lastPosition = this.mousePosition;
+        this.submitBtn = document.querySelector("#submit_canvas");
+        this.clearBtn = document.querySelector("#clear_canvas");
+        this.canvas.width = 300;
+        this.canvas.height = 200;
+
+        /*
+        resizeCanvas();
+        window.onresize = resizeCanvas;
+        */
+        
+              
         this.canvaSignature();
+
+        console.log(canvas);
+        console.log(this.clearBtn);
+        console.log(this.submitBtn);
 
     }
 
@@ -30,132 +57,139 @@ class Reservation {
     }
 
     canvaSignature() {
-        const Signature = {
-            // Attributs
-            ecriture: false, //Pour activation de l'écriture
-            canvas: document.querySelector("#canvas_resa"),
-            context: null, //Pour définir le contexte d'utilisation du canvas
-            signatureImg: null,
+        let self = this;
 
-            // Méthode qui traduit l'événement Touch en Évent pour écrans tactiles
-            convertTouchEvent: function (ev) {
-                let touch, ev_type, mouse_ev;
-                touch = ev.targetTouches[0];
-                ev.preventDefault();
-                switch (ev.type) {
-                    case 'touchstart':
-                        // S'assure qu'un doigt est sur la cible
-                        if (ev.targetTouches.length != 1) {
-                            return;
-                        }
-                        touch = ev.targetTouches[0];
-                        ev_type = 'mousedown';
-                        break;
-                    case 'touchmove':
-                        // S'assure qu'un doigt est sur la cible
-                        if (ev.targetTouches.length != 1) {
-                            return;
-                        }
-                        touch = ev.targetTouches[0];
-                        ev_type = 'mousemove';
-                        break;
-                    case 'touchend':
-                        // Sassure que le doigt a été enlever de la cible
-                        if (ev.changedTouches.length != 1) {
-                            return;
-                        }
-                        touch = ev.changedTouches[0];
-                        ev_type = 'mouseup';
-                        break;
-                    default:
-                        return;
-                }
-
-                mouse_ev = document.createEvent("MouseEvents");
-                mouse_ev.initMouseEvent(
-                    ev_type, // Genre de l'événement
-                    true,
-                    true,
-                    window, // Vue de l'événement
-                    0, // Compte de clic de souris
-                    touch.screenX, // Coordonnée X de l'écran
-                    touch.screenY, // Coordonnée Y de l'écran
-                    touch.clientX, // Coordonnée X du client
-                    touch.clientY, // Coordonnée Y du client
-                    ev.ctrlKey, // Vérifie si la touche contrôle a été appuyée
-                    ev.altKey, // Vérifie si la touche alt a été appuyée
-                    ev.shiftKey, // Vérifie si la touche majuscule a été appuyée
-                    ev.metaKey, // Vérifie si la touche meta a été appuyée
-                    0, // Bouton de la souris
-                    null // Cible
-                );
-                this.dispatchEvent(mouse_ev);
-            },
-
-            // Méthode qui récupére les coordonnées de l'Élément de pointage (souris, doigt...)
-            getMousePos: function (event) {
-                let rect = this.canvas.getBoundingClientRect(); // Renvoie la taille d'un élément et sa position relative par rapport à la zone d'affichage
-
-                return {
-                    x: event.clientX - rect.left,
-                    y: event.clientY - rect.top
-                };
-            },
-
-            // Méthode qui détermine le déplacement de l'élément de pointage
-            deplacementSouris: function(event) {
-            sourisPosition = this.getMousePos(event); // Coordonnées de l'élément de pointage retourner par la méthode "getMousePos"
-            positionX = sourisPosition.x;
-            positionY = sourisPosition.y;
-            this.dessin(positionX, positionY);
-            },
-
-            // Méthode qui permet de dessiner dans le canvas
-            dessin: function (positionX, positionY) {
-                this.context = this.canvas.getContext("2d"); // Contexte du canvas
-                this.context.lineWidth = 5; // Largeur du tracer
-
-                if (this.ecriture) {
-                    this.context.lineTo(positionX, positionY); // Désigne le point d'arrivé du tracer
-                    this.context.stroke(); // Effectue le tracer
-                }
-            },
-
-            // Méthode qui permet de désactiver l'écriture
-            desactivationDessin: function () {
-                this.ecriture = false; // Désactive l'écriture dans le canvas
-            },
-
-            // Méthode qui active et débute l'écriture dans le canvas
-            activationDessin: function () {
-                this.ecriture = true; // Active l'écriture sur le canvas
-                this.context.beginPath(); // Commence un nouveau chemin de dessin
-                this.context.moveTo(positionX, positionY); // Désigne le début du tracer
-            },
-
-            // Méthode qui permet d'effacer le canvas
-            clearCanvas: function () {
-                this.context.clearRect(0, 0, 800, 200); // Réinitialise le canvas
-            }
-        }
-
-        console.log(Signature.canvas);
-
-        // Appel des méthodes sur écrans tactiles
-        Signature.canvas.addEventListener("touchstart", Signature.convertTouchEvent);
-        Signature.canvas.addEventListener("touchmove", Signature.convertTouchEvent);
-        Signature.canvas.addEventListener("touchend", Signature.convertTouchEvent);
-
-        // Appel des méthodes sur PC
-        Signature.canvas.addEventListener("mousedown", Signature.activationDessin.bind(Signature));
-        Signature.canvas.addEventListener("mousemove", Signature.deplacementSouris.bind(Signature));
-        Signature.canvas.addEventListener("mouseup", Signature.desactivationDessin.bind(Signature));
-
-        // Appel de la méthode d'effacement du canvas lors de l'appui sur le bouton "effacer"
-        document.getElementById("clear_canvas").addEventListener("click", function () {
-            Signature.clearCanvas();
+        //Souris
+        this.canvas.addEventListener("mousedown", function (e) {
+            self.draw = true;
+            self.lastPosition = self.getMposition(e);
         });
 
+        this.canvas.addEventListener("mousemove", function (e) {
+            self.mousePosition = self.getMposition(e);
+            self.canvasResult()
+        });
+
+        document.addEventListener("mouseup", function (e) {
+            self.draw = false;
+        });
+
+        // Stop scrolling (touch)
+        document.body.addEventListener("touchstart", function (e) {
+            if (e.target == self.canvas) {
+                e.preventDefault();
+            }
+        });
+
+        document.body.addEventListener("touchend", function (e) {
+            if (e.target == self.canvas) {
+                e.preventDefault();
+            }
+        });
+
+        document.body.addEventListener("touchmove", function (e) {
+            if (e.target == self.canvas) {
+                e.preventDefault();
+            }
+        });
+
+        // Touchpad
+        this.canvas.addEventListener("touchstart", function (e) {
+            self.mousePosition = self.getTposition(e);
+            var touch = e.touches[0];
+            var mouseEvent = new MouseEvent("mousedown", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            self.canvas.dispatchEvent(mouseEvent);
+        });
+
+        this.canvas.addEventListener("touchmove", function (e) {
+            var touch = e.touches[0];
+            var mouseEvent = new MouseEvent("mousemove", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            self.canvas.dispatchEvent(mouseEvent);
+        });
+
+        this.canvas.addEventListener("touchend", function (e) {
+            var mouseEvent = new MouseEvent("mouseup", {});
+            self.canvas.dispatchEvent(mouseEvent);
+        });
+
+        //Effacer
+        this.clearBtn.addEventListener("click", function (e) {
+            self.clearCanvas()
+        });
+
+        //valider
+        this.submitBtn.addEventListener("click", (e) => {
+            if (self.canvas.value = null) {
+                alert("S'il vous plaît, veuillez signer d'abord.");
+            } else if (document.querySelector("#form_confirm").style.display = "none") {
+                document.querySelector("#canvas").style.display = "none";
+                document.querySelector("#form_confirm").style.display = "block";
+            } else {
+                document.querySelector("#canvas").style.display = "block";
+                document.querySelector("#form_confirm").style.display = "none";
+            }
+
+
+        })
+
+    }
+
+    // Renvoie les coordonnées de la souris 
+    getMposition(mouseEvent) {
+        if (this.draw) {
+            var oRect = this.canvas.getBoundingClientRect();
+            return {
+                x: mouseEvent.clientX - oRect.left,
+                y: mouseEvent.clientY - oRect.top
+            };
+        }
+    }
+
+    /*
+    resizeCanvas() {
+    // When zoomed out to less than 100%, for some very strange reason,
+    // some browsers report devicePixelRatio as less than 1
+    // and only part of the canvas is cleared then.
+    let ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
+    }
+    */
+
+
+
+
+    // Renvoie les coordonnées du pad 
+    getTposition(touchEvent) {
+        var oRect = this.canvas.getBoundingClientRect();
+        return {
+            x: touchEvent.touches[0].clientX - oRect.left,
+            y: touchEvent.touches[0].clientY - oRect.top
+        };
+    }
+
+    // Dessin du canvas
+    canvasResult() {
+        if (this.draw) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.lastPosition.x, this.lastPosition.y);
+            this.ctx.lineTo(this.mousePosition.x, this.mousePosition.y);
+            this.ctx.stroke();
+            this.lastPosition = this.mousePosition;
+        }
+    };
+
+    // Vide le dessin du canvas
+    clearCanvas() {
+        this.canvas.width = this.canvas.width;
+        this.ctx.lineWidth = 3;
     }
 
 
