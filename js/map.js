@@ -123,6 +123,7 @@ class Map {
                             blocDescription.style.display = "block";
                             blocInfoStation.style.display = "none";
                             canvasBloc.style.display = "none";
+                            document.querySelector("#form_confirm").style.display = "none";
                         }
                         e.preventDefault();
 
