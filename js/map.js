@@ -33,6 +33,8 @@ class Map {
         this.getStations();
     }
 
+
+
     //Récupération des données JSON et création de marqueurs
     async getStations() {
         const response = await fetch('https://api.jcdecaux.com/vls/v1/stations?contract=' + this.city + '&apiKey=19db939c14d552b350876fb0d0948c01b1183b0a');
@@ -94,9 +96,9 @@ class Map {
 
                     let btn = document.querySelector('.toggleBtn');
                     btn.addEventListener('click', (e,
-                        adresse = station.address,
-                        nbPlaceVelo = station.available_bike_stands,
-                        vDispo = station.available_bikes
+                        //adresse = station.address,
+                        //nbPlaceVelo = station.available_bike_stands,
+                        //vDispo = station.available_bikes
                     ) => {
                         let blocDescription = document.querySelector('#form_container');
                         let blocInfoStation = document.querySelector('#station_heading');
@@ -109,11 +111,11 @@ class Map {
                             blocDescription.style.display = "none";
                             blocInfoStation.style.display = "block";
 
-                            let stationAddress = document.querySelector("#stationAddress");
-                            let stationNbPlace = document.querySelector("#stationNbPlace");
-                            let stationVeloDispo = document.querySelector("#stationVeloDispo");
+                            //let stationAddress = document.querySelector("#stationAddress");
+                            //let stationNbPlace = document.querySelector("#stationNbPlace");
+                            //let stationVeloDispo = document.querySelector("#stationVeloDispo");
 
-                            stationAddress.innerHTML = adresse;
+                            //stationAddress.innerHTML = adresse;
 
                             canvasBloc.style.display = "none";
                         } else {
@@ -126,11 +128,6 @@ class Map {
                             document.querySelector("#form_confirm").style.display = "none";
                         }
                         e.preventDefault();
-
-
-
-
-
 
 
                     })
