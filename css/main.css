@@ -765,22 +765,13 @@ body #card_container .canvas_container #canvas_confirm #clear_canvas:hover {
 }
 
 body #form_confirm {
-  margin: auto;
-  height: 208px;
-  text-align: center;
-  padding: 70px 0;
-  font-family: "Cagliostro", sans-serif;
-  font-size: 1.1rem;
-  background-color: #f9f9fa;
-}
-
-body #form_confirm span:nth-child(1), body #form_confirm span:nth-child(3) {
-  text-decoration: underline;
-}
-
-body #form_confirm span:nth-child(2), body #form_confirm span:nth-child(4),
-body #form_confirm span:last-child {
-  color: #870a30;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    padding: 4px 0 4px 10px;
+    font-family: "Cagliostro", sans-serif;
+    font-size: 1.1rem;
+    background-color: #f9f9fa;
 }
 
 footer {

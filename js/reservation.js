@@ -7,7 +7,14 @@ class Reservation {
 
         this.reservationBtn = document.querySelector("#submit_canvas");
 
-   
+        this.affichageNom = document.querySelector("#name");
+        this.affichagePrenom = document.querySelector("#firstname");
+
+        this.zoneSaisieNP = document.querySelector("#confirm_name");
+
+       console.log(this.affichageNom, this.affichagePrenom, this.zoneSaisieNP);
+
+        this.affichageNomPrenom();
 
         this.decomptCompteur();
 
@@ -27,55 +34,27 @@ class Reservation {
                 blocInfoStation.style.display = "none";
 
 
+
             }
             e.preventDefault();
         })
     }
 
-    async decomptCompteur() {
 
-        const response = await fetch('https://api.jcdecaux.com/vls/v1/stations?contract=Nancy&apiKey=19db939c14d552b350876fb0d0948c01b1183b0a');
-        const stations = await response.json();
+    affichageNomPrenom() {
+        let saisieNom = this.affichageNom.value,
+            saisiePrenom = this.affichagePrenom.value;
 
-        stations.forEach((station) => {
-            console.log(station);
+        this.zoneSaisieNP.innerHTML = ' ' + saisieNom + ' ' + saisiePrenom;
 
-            // pour indexer et afficher les informations de chaque station identifiée  
-            let stationAddress = document.querySelector("#stationAddress"),
-                stationNbPlace = document.querySelector("#stationNbPlace"),
-                stationVeloDispo = document.querySelector("#stationVeloDispo");
+    }
 
-            stationAddress.innerHTML = station.address;
-            stationNbPlace.innerHTML = station.available_bike_stands;
-            stationVeloDispo.innerHTML = station.available_bikes;
-
-            // Mise en place du compteur 
-
-            this.reservationBtn.addEventListener("click", (e) => {
-                let nomStation = document.querySelector("#confirm_station");
-                nomStation.innerHTML = station.address;
-            })
-
-        });
-
-
-
-
-
+    decomptCompteur() {
 
     }
 
 
-
-
-
 }
-
-
-
-
-
-
 
 
 const reservation = new Reservation();

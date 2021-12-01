@@ -740,21 +740,13 @@ body {
 
     #form_confirm {
         margin: auto;
-        height: 208px;
-        text-align: center;
-        padding: 70px 0;
+        width: 100%;
+        height: auto;
+        padding: 4px 0 4px 10px;
         font-family: $font-principale;
         font-size: $h3;
         background-color: #f9f9fa;
 
-        span:nth-child(1), span:nth-child(3) {
-            text-decoration: underline;
-        }
-
-        span:nth-child(2), span:nth-child(4),
-        span:last-child {
-            color: #870a30;
-        }
     }
     /*    #form_exp {
         margin-top: 20px;

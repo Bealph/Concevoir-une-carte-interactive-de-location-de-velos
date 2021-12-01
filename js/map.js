@@ -54,14 +54,14 @@ class Map {
             })
 
             const popup = L.popup().setContent(
-                "<b>" + station.address + "</b>" + '<br>' +
+                "<b id='popupStationName'>" + station.address + "</b>" + '<br>' +
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Station :' + "</b>" +
                 "<b style='color: red'>" + ' ' + station.status + "</b>" + '<br>' +
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de place total :' + "</b>" +
-                "<b style='color: green'>" + ' ' + station.available_bike_stands + "</b>" +
+                "<b id='popupAvaibleBikeStands' style='color: green'>" + ' ' + station.available_bike_stands + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
                 "<b style='text-decoration: underline; font-weight : normal'>" + 'Nombre de vélo disponible :' + "</b>" +
-                "<b style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
+                "<b id='popupAvaibleBikes' style='color: blue'>" + ' ' + station.available_bikes + "</b>" +
                 "<b style='font-weight : normal'>" + ' ' + 'vélos ;' + "</b>" + '<br>' +
                 "<button class='toggleBtn' style='border: none;'>" + 'Cliquer pour reserver' + "</button>"
 
@@ -96,9 +96,7 @@ class Map {
 
                     let btn = document.querySelector('.toggleBtn');
                     btn.addEventListener('click', (e,
-                        //adresse = station.address,
-                        //nbPlaceVelo = station.available_bike_stands,
-                        //vDispo = station.available_bikes
+
                     ) => {
                         let blocDescription = document.querySelector('#form_container');
                         let blocInfoStation = document.querySelector('#station_heading');
@@ -111,13 +109,23 @@ class Map {
                             blocDescription.style.display = "none";
                             blocInfoStation.style.display = "block";
 
-                            //let stationAddress = document.querySelector("#stationAddress");
-                            //let stationNbPlace = document.querySelector("#stationNbPlace");
-                            //let stationVeloDispo = document.querySelector("#stationVeloDispo");
+                            let popupStationName = document.querySelector("#popupStationName");
+                            let popupAvaibleBikeStands = document.querySelector("#popupAvaibleBikeStands");
+                            let popupAvaibleBikes = document.querySelector("#popupAvaibleBikes");
 
-                            //stationAddress.innerHTML = adresse;
+                            let stationAddress = document.querySelector("#stationAddress");
+                            let stationNbPlace = document.querySelector("#stationNbPlace");
+                            let stationVeloDispo = document.querySelector("#stationVeloDispo");
+
+                            stationAddress.innerHTML = popupStationName.textContent;
+                            stationNbPlace.innerHTML = popupAvaibleBikeStands.textContent;
+                            stationVeloDispo.innerHTML = popupAvaibleBikes.textContent;
 
                             canvasBloc.style.display = "none";
+
+                            let nomStation = document.querySelector("#confirm_station");
+                            nomStation.innerHTML = popupStationName.textContent;
+
                         } else {
                             let backContentBtn = "Cliquer pour reserver";
                             btn.innerHTML = backContentBtn;

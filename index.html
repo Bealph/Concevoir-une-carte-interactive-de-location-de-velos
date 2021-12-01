@@ -26,44 +26,42 @@
     <script src="https://kit.fontawesome.com/ddfea75fe6.js" crossorigin="anonymous"></script>
 
     <title>P3_01_codesource</title>
-<style>
+    <style>
 
-    .leaflet-div-icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #e694ee;
-        color: ivory;
-        border: none;
-        border-radius: 50%;
+        .leaflet-div-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e694ee;
+            color: ivory;
+            border: none;
+            border-radius: 50%;
+        }
 
-    }
+        .mycluster {
+            position: absolute;
+            text-align: center;
+            font-size: 17px;
+            font-family: monospace;
+            width: 31px;
+            height: 27px;
+        }
 
-    .mycluster {
-        position: absolute;
-        text-align: center;
-        font-size: 17px;
-        font-family: monospace;      
-        width: 31px;
-        height: 27px;
-    } 
-
-    .toggleBtn {
-        display: block;
-        margin: 5px auto 0 auto;
-        width: auto;
-        background: #33b12d;
-        color: white;
-        text-align: center;
-        border: 1px solid #0078A8;
-        text-decoration: none;
-        padding: 5px 7px;
-        border-radius: 6px;
-        font-size: 12px;
-        box-shadow: 0px 0px 5px 0px #870a30;
-    }
-
-</style>
+        .toggleBtn {
+            display: block;
+            margin: 5px auto 0 auto;
+            width: auto;
+            background: #33b12d;
+            color: white;
+            text-align: center;
+            border: 1px solid #0078A8;
+            text-decoration: none;
+            padding: 5px 7px;
+            border-radius: 6px;
+            font-size: 12px;
+            box-shadow: 0px 0px 5px 0px #870a30;
+        }
+    </style>
 
 </head>
 
@@ -285,13 +283,13 @@
             <div id="station_heading" class="card col-6" style="display: none;">
 
                 <div id="station_infos">
-                    <p>Adresse : <span id="stationAddress"> </span></p>
-                    <p>Nombre de places : <span id="stationNbPlace"> </span></p>
-                    <p>Nombre de vélos disponibles : <span id="stationVeloDispo"> </span></p>
+                    <p><span style="text-decoration: underline;">Adresse : </span><span id="stationAddress" style="color: blueviolet; margin-left: 17px;"> </span></p>
+                    <p><span style="text-decoration: underline;">Nombre de places : </span><span id="stationNbPlace" style="color: blueviolet; margin-left: 17px;"> </span></p>
+                    <p><span style="text-decoration: underline;">Nombre de vélos disponibles : </span><span id="stationVeloDispo" style="color: blueviolet; margin-left: 17px;"> </span></p>
                 </div>
 
 
-                <form id="form_velo">
+                <form id="form_velo" name="userInfos">
                     <fieldset>
                         <legend>Réservez un vélo de cette station :</legend>
                         <label for="name">Votre nom : </label><input type="text" name="name" id="name"
@@ -310,10 +308,10 @@
                 <div id="canvas_div">
                     <canvas id="canvas_resa">
                         <!--Apposez votre signature (si vous voyez ce message,
-                        votre navigateur n'est pas à jour)-->
+                votre navigateur n'est pas à jour)-->
                     </canvas>
 
-                   
+
 
                 </div>
                 <div id="canvas_confirm">
@@ -323,10 +321,29 @@
             </div>
 
             <!--BLOC MESSAGES DE CONFIRAMATION DE LA RESERVATION AVANT EXPIRATION -->
-            <p id="form_confirm" class="card col" style="display: none;">
-                <span>Vélo réservé à la station :</span><span id="confirm_station">   STATION</span><br /><span> Par :</span><span id="confirm_name">  NAME</span><br />
-                <span style="text-decoration: underline;">Temps restant :</span> <span id="timer"></span>  secondes avant l'expiration de la session
-            </p>
+            <div id="form_confirm" class="card col" style="display: none;">
+                <p style=" text-decoration: underline; text-align: center; color: darkred">
+                    <span> Réservation confirmée !!</span>
+                </p>
+
+                <p>
+                    <span style="text-decoration: underline;">Votre vélo est à recupérer à la station : </span>
+                <p style="margin: auto; text-align: center;">
+                    <span id="confirm_station" style="text-decoration: none; color: blueviolet; ">   <!--STATION--></span>
+                </p>
+
+                <p style="margin-top: 5%;">
+                    <span style="text-decoration: underline;"> Par :</span><span id="confirm_name" style="color: blueviolet; margin-left: 48px;">   <!--NAME--></span>
+                </p>
+                
+                <div>
+                    <span style="text-decoration: underline;">Temps restant avant expiration de votre reservation :</span> <br />
+                    <p style="text-align: center;"><span id="timer"> </span>  + secondes</p>
+                </div>
+
+                
+            </div>
+
 
         </div>
     </section>
