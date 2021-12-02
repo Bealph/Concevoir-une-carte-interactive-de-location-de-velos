@@ -1,4 +1,4 @@
-export default class Diaporama {
+class Diaporama {
     constructor (){
         this.slides = document.querySelectorAll('#item'); // tableau
         this.indexSlide = 0;
@@ -78,7 +78,7 @@ export default class Diaporama {
 
 }
 
-
+const slider = new Diaporama();
 
 
     
